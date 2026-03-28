@@ -840,3 +840,10 @@ print(txt.format(age, name))
 
 myorder = "I have a {carname}, it is a {model}."
 print(myorder.format(carname = "Ford", model = "Mustang"))
+
+# Create a variable
+price=49
+# Create an f-string
+txt=f"Test its value {price}"
+# Print the result
+print(txt)
