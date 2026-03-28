@@ -742,3 +742,101 @@ for i in range(2,6):
     print(i)
 
 
+# Create a list
+cars = ["Ford", "Volvo", "BMW"]
+# Print the first item
+print(cars[0])
+# Change the second item to "Toyota"
+cars[1]="Toyota"
+# Print the list
+print(cars)
+
+mytuple = ("apple", "banana", "cherry")
+myit = iter(mytuple)
+
+print(next(myit))
+print(next(myit))
+print(next(myit))
+
+
+# Create a tuple
+mytuple = ("apple", "banana", "cherry")
+# Create an iterator
+myit = iter(mytuple)
+# Print the first item
+print(next(myit))
+
+try:
+    print(x)
+except NameError:
+    print("Variable x is not defined")
+except:
+    print("Something else went wrong")
+else:
+    print("Nothing went wrong")
+finally:
+    print("The 'try except' is finished")
+
+try:
+    f = open("demofile.txt")
+    try:
+        f.write("Lorum Ipsum")
+    except:
+        print("Something went wrong when writing to the file")
+    finally:
+        f.close()
+except:
+    print("Something went wrong when opening the file")
+
+
+x = -1
+#if x < 0:
+# raise Exception("Sorry, no numbers below zero")
+
+x = "hello"
+#if not type(x) is int:
+# raise TypeError("Only integers are allowed")
+
+# Try to print x
+try:
+    print(x)
+except:
+    print("An error occurred")
+finally:
+    print("Execution complete")
+
+
+price = 59
+txt = f"The price is {price} dollars"
+print(txt)
+
+price = 59.9099
+txt = f"The price is {price:.2f} dollars"
+print(txt) #59.91
+
+price = 49
+txt = f"It is very {'Expensive' if price>50 else 'Cheap'}" #Cheap
+
+print(txt)
+
+fruit = "apples"
+txt = f"I love {fruit.upper()}"
+print(txt)
+
+def myconverter(x):
+    return x * 0.3048
+
+txt = f"The plane is flying at a {myconverter(30000)} meter altitude"
+print(txt)
+
+price = 59000
+txt = f"The price is {price:,} dollars" #59,000 comma is a thousand separator
+print(txt)
+
+age = 36
+name = "John"
+txt = "His name is {1}. {1} is {0} years old."
+print(txt.format(age, name))
+
+myorder = "I have a {carname}, it is a {model}."
+print(myorder.format(carname = "Ford", model = "Mustang"))
