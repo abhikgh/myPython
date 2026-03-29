@@ -847,3 +847,114 @@ price=49
 txt=f"Test its value {price}"
 # Print the result
 print(txt)
+
+x = None
+print(type(x))  #NoneType
+
+# Assign None to x
+x=None
+# Check if x is None
+if x is None:
+    print("x is None")
+
+print("Enter your name:")
+name = input()
+print(f"Hello {name}")
+
+name = input("Enter your name:")
+print(f"Hello {name}")
+
+
+import math
+
+x = input("Enter a number:")
+
+#find the square root of the number:
+y = math.sqrt(float(x))
+
+print(f"The square root of {x} is {y}")
+
+
+y = True
+while y == True:
+    x = input("Enter a number:")
+    try:
+        x = float(x);
+        y = False
+    except:
+        print("Wrong input, please try again.")
+
+print("Thank you!")
+
+f = open("demofile.txt", "rt")
+print(f.read())
+print(f.read(5))
+print(f.readline())
+f.close()
+
+import os
+if os.path.exists("demofile.txt"):
+    os.remove("demofile.txt")
+else:
+    print("The file does not exist")
+
+#f = open("D:\\myfiles\welcome.txt")
+#print(f.read())
+
+with open("demofile.txt") as f:
+    print(f.read())
+
+with open("demofile.txt") as f:
+    for x in f:
+        print(x) # loop line by line
+
+with open("demofile.txt", "a") as f:
+    f.write("Now the file has more content!")
+
+#open and read the file after the appending:
+with open("demofile.txt") as f:
+    print(f.read())
+
+
+with open("demofile.txt", "w") as f:  #w overwrites existing content
+    f.write("Woops! I have deleted the content!")
+
+#open and read the file after the overwriting:
+with open("demofile.txt") as f:
+    print(f.read())
+
+#Inheritance
+class Person:
+    def __init__(self, fname, lname):
+        self.firstname = fname
+        self.lastname = lname
+
+    def printname(self):
+        print(self.firstname, self.lastname)
+
+class Student(Person):
+    def __init__(self, fname, lname):
+        super().__init__(fname, lname)
+        self.graduationyear = 2019
+
+x = Student("Mike", "Olsen")
+print(x.graduationyear)
+
+# Create the Animal class
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    def speak(self):
+        print(self.name)
+
+# Create the Dog class (inherits from Animal)
+class Dog(Animal):
+    pass
+
+# Create an object
+d1 = Dog("Rex")
+# Call the speak method
+d1.speak()
+
+
+
