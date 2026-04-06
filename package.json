@@ -1,0 +1,19 @@
+{
+    "name": "myPython",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "main": "api.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@google/generative-ai": "^0.1.0",
+        "axios": "^1.14.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.15.11"
+    }
+}
