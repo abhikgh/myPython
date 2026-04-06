@@ -1,25 +1,28 @@
-import {GoogleGenerativeAI} from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = "AIzaSyAuQkN_NYe3sjz8CVTkbUUMm5eyDVL-hlA";
+import dotenv from "dotenv";
+dotenv.config()
 
-const googleGenAI = new GoogleGenerativeAI(apiKey);
+const googleGenAI = new GoogleGenerativeAI(process.env.apiKey);
 
 async function main() {
   try {
 
     console.log("Generating content...");
-    
-    const prompt = "Write a short story about a robot learning to love.";
-    const model = googleGenAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-    const response = await googleGenAI.generateContent({
-      model,
-      prompt,
-    });
-    const text =  response.text;
+    const prompt = "Write a short story about football world cup in 2022";
+    const model = googleGenAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+
+    const text = response.text();
     console.log(text);
+
   } catch (error) {
     console.error("Error generating content:", error);
     throw error;
   }
 }
+
+main();
