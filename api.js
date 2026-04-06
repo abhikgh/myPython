@@ -1,5 +1,3 @@
-//npm install @google/generative-ai
-
 import {GoogleGenerativeAI} from "@google/generative-ai";
 
 const apiKey = "AIzaSyAuQkN_NYe3sjz8CVTkbUUMm5eyDVL-hlA";
