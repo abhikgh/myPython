@@ -10,7 +10,7 @@ async function main() {
 
     console.log("Generating content...");
 
-    const prompt = "Write a short story about football world cup in 2022";
+    const prompt = "Write a short story about a cat who learns to play the piano.";
     const model = googleGenAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent(prompt);

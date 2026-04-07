@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chatbot</title>
+    <!-- Inter Font for a professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --bg-color: #f3f4f6;
+            --chat-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --user-bubble: #4f46e5;
+            --ai-bubble: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 90vh;
+            background: var(--chat-bg);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .chat-header {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .api-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .api-input-group input {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Chat Area */
+        #chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-bubble);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: var(--ai-bubble);
+            color: var(--text-main);
+            border-bottom-left-radius: 2px;
+            white-space: pre-wrap;
+        }
+
+        /* Typing Indicator */
+        .typing {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 12px;
+        }
+
+        textarea {
+            flex: 1;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px;
+            resize: none;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        
+        <div class="chat-header">
+            <h1>Gemini AI Assistant</h1>
+           
+        </div>
+
+        <div id="chat-window">
+            <div class="message ai-message">Hello! I'm powered by Gemini. How can I help you today?</div>
+        </div>
+
+        <div id="typing-indicator" class="typing" style="margin-left: 20px; margin-bottom: 10px;">Gemini is thinking...</div>
+
+        <div class="input-area">
+            <textarea id="user-input" rows="1" placeholder="Type your message here..."></textarea>
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <!-- Import Google Generative AI via ESM -->
+    <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+       
+
+        const chatWindow = document.getElementById('chat-window');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const apiKey = "";
+        const typingIndicator = document.getElementById('typing-indicator');
+
+        // Helper to add messages to UI
+        function appendMessage(role, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${role}-message`;
+            msgDiv.textContent = text;
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        
+        async function handleChat() {
+            const prompt = userInput.value.trim();
+            // Initialize the AI
+            const genAI = new GoogleGenerativeAI(apiKey);
+
+            if (!prompt) return;
+            if (!apiKey) {
+                alert("Please enter your API Key first!");
+                return;
+            }
+
+            // UI Updates
+            appendMessage('user', prompt);
+            userInput.value = '';
+            sendBtn.disabled = true;
+            typingIndicator.style.display = 'block';
+
+            try {
+               
+                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const text = response.text();
+
+                appendMessage('ai', text);
+            } catch (error) {
+                console.error("Error:", error);
+                appendMessage('ai', "Error: " + error.message);
+            } finally {
+                sendBtn.disabled = false;
+                typingIndicator.style.display = 'none';
+            }
+        }
+
+        // Event Listeners
+        sendBtn.addEventListener('click', handleChat);
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleChat();
+            }
+        });
+    </script>
+</body>
+</html>
